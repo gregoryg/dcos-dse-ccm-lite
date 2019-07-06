@@ -1,2 +1,2 @@
-# mjs-ccm-lite
+* Purpose
 MJS / JupyterLab demo deployable on DC/OS
