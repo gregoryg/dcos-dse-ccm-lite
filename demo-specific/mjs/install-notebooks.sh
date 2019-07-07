@@ -9,6 +9,7 @@ export PATH=$PATH:/opt/conda/bin:/opt/jdk/bin:/opt/spark/bin:/opt/hadoop/bin:/op
 hdfs dfs -mkdir -p /user/nobody/data
 hdfs dfs -put ds-for-telco/data/churn.all /user/nobody/data/
 # Bring in notebooks included for internal testing
-wget 'https://github.com/mesosphere/jupyter-service/blob/master/notebooks/BeakerX-DCOS-Spark.ipynb'
-wget 'https://github.com/mesosphere/jupyter-service/blob/master/notebooks/Ray-WebUI.ipynb'
-wget 'https://github.com/mesosphere/jupyter-service/blob/master/notebooks/TFoS.ipynb'
+# TODO get permission to host these notebooks on a public repo
+# wget 'https://github.com/mesosphere/jupyter-service/blob/master/notebooks/BeakerX-DCOS-Spark.ipynb'
+# wget 'https://github.com/mesosphere/jupyter-service/blob/master/notebooks/Ray-WebUI.ipynb'
+# wget 'https://github.com/mesosphere/jupyter-service/blob/master/notebooks/TFoS.ipynb'
