@@ -23,25 +23,25 @@ dcos package install hdfs --yes
 jq -r '.networking.ingress.hostname="'${extlb}'"' ./mjs-options.json-template > mjs-options.json
 dcos package install beta-mesosphere-jupyter-service --options=mjs-options.json --yes
 
-echo 'Waiting for jupyter task to become available'
 for i in {0..10}
 do
     dcos task jupyter
     if [ $? -ne 0 ] ; then
         echo -n .
-        sleep 10
+        sleep 2
     else
         break
     fi
 done
 echo
 
-for i in {0..10}
+echo 'Waiting for Jupyter task to become available'
+for i in {0..20}
 do
     status=$(dcos task --json jupyter | jq -r '.[].state')
     if [ "$status" != "TASK_RUNNING" ] ; then
        echo -n .
-       sleep 10
+       sleep 20
     else
         break
     fi
