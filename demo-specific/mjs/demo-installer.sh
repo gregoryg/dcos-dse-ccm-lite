@@ -36,6 +36,22 @@ do
 done
 echo
 
+for i in {0..10}
+do
+    status=$(dcos task --json jupyter | jq -r '.[].state')
+    if [ "$status" != "TASK_RUNNING" ] ; then
+       echo -n .
+       sleep 10
+    else
+        break
+    fi
+done
+echo
+if [ "$status" != "TASK_RUNNING" ] ; then
+    echo "Jupyter task is not running - cannot install notebookes (last status: ${status})"
+    exit 1
+fi
+
 cat install-notebooks.sh | dcos task exec -i jupyter -- bash
 
 # . ./install-ccmlite.sh https://$masterip
