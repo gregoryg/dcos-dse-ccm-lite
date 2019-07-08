@@ -1,5 +1,6 @@
 #!/bin/bash
 # TODO: externalize dcos package install/config to demo-installers
+# TODO: check for task running: dcos task --json jupyter|jq -r '.[].state'
 currentdir=$(pwd)
 dcosdir=$currentdir/dcosconfig
 export DCOS_DIR=$dcosdir
@@ -21,6 +22,19 @@ dcos package install hdfs --yes
 # Populate loadbalancer in MJS options
 jq -r '.networking.ingress.hostname="'${extlb}'"' ./mjs-options.json-template > mjs-options.json
 dcos package install beta-mesosphere-jupyter-service --options=mjs-options.json --yes
+
+echo 'Waiting for jupyter task to become available'
+for i in {0..10}
+do
+    dcos task jupyter
+    if [ $? -ne 0 ] ; then
+        echo -n .
+        sleep 10
+    else
+        break
+    fi
+done
+echo
 
 cat install-notebooks.sh | dcos task exec -i jupyter -- bash
 
