@@ -17,8 +17,6 @@ dcos cluster setup --no-check https://$(terraform output cluster-address) --user
 
 ${SCRIPTPATH}/mjs-setup.sh
 
-cd $currentdir
-
 echo -e "\nYour cluster details are here:\n" > outputemail
 echo $(terraform output) >> outputemail
 echo -e "\nYour initial JupyterLab workspace is at https://${extlb}/jupyter\n\n" >> outputemail
