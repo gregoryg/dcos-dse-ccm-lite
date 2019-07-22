@@ -54,10 +54,11 @@ wait_package_ready "marathon-lb"
 dcos package install hdfs --yes
 wait_package_ready "hdfs"
 
-# Populate loadbalancer in MJS options
-jq -r '.networking.ingress.hostname="'${extlb}'"' ${SCRIPTPATH}/mjs-options.json-template > ${SCRIPTPATH}/mjs-options.json
+# Populate loadbalancer in MJS options - write to current directory
+jq -r '.networking.ingress.hostname="'${extlb}'"' ${SCRIPTPATH}/mjs-options.json-template > mjs-options.json
 
-dcos package install beta-mesosphere-jupyter-service --options=${SCRIPTPATH}/mjs-options.json --yes
+dcos package install beta-mesosphere-jupyter-service --options=mjs-options.json --yes
+echo 'Wait for jupyter task to become ready'
 wait_package_ready "jupyter"
 
 echo "Now installing initial Jupyter notebook in local storage area"
