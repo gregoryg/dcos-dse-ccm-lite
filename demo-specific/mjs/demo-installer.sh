@@ -6,7 +6,7 @@ SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 eval `ssh-agent -s` > /dev/null 2>&1
 ssh-add /home/ec2-user/SE-UI-Toolkit/resources/ssh_private_key.pem > /dev/null 2>&1
 masterip=($(terraform output masters-ips | head -n1 | cut -d ',' -f1))
-extlb=$(terraform output public-agents-loadbalancer)
+export extlb=$(terraform output public-agents-loadbalancer)
 
 # cp -r /home/ec2-user/demo-installers/mjs .
 # cd mjs

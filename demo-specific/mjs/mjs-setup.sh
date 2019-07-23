@@ -1,12 +1,15 @@
 #!/bin/bash
+
+set -u
+
 ## This script assumes dcos command in path, and cluster to install is default
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 echo $SCRIPTPATH
 
+# Set extlb to hostname or IP of the public agent load balancer
+# extlb=$(terraform output public-agents-loadbalancer)
+echo "Public agent loadbalancer is ${extlb}"
 PATH=.:$PATH
-extlb=$(terraform output public-agents-loadbalancer)
-
-
 
 wait_package_ready () {
     pkg=$1
