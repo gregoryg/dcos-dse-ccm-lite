@@ -1,3 +1,8 @@
+variable "dcos_install_mode" {
+  description = "specifies which type of command to execute. Options: install or upgrade"
+  default = "install"
+}
+
 # Used to determine your public IP for forwarding rules
 data "http" "whatismyip" {
   url = "http://whatismyip.akamai.com/"
