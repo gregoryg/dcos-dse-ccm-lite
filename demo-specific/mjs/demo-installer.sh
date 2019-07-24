@@ -7,6 +7,7 @@ eval `ssh-agent -s` > /dev/null 2>&1
 ssh-add /home/ec2-user/SE-UI-Toolkit/resources/ssh_private_key.pem > /dev/null 2>&1
 masterip=($(terraform output masters-ips | head -n1 | cut -d ',' -f1))
 export extlb=$(terraform output public-agents-loadbalancer)
+jupyter_password=$(jq -r '.service.jupyter_password' ${SCRIPTPATH}/mjs-options.json-template)
 
 # cp -r /home/ec2-user/demo-installers/mjs .
 # cd mjs
@@ -17,9 +18,14 @@ dcos cluster setup --no-check https://$(terraform output cluster-address) --user
 
 ${SCRIPTPATH}/mjs-setup.sh
 
-echo -e "\nYour cluster details are here:\n" > outputemail
+echo -e "Your cluster details are here:\n" > outputemail
 echo $(terraform output) >> outputemail
-echo -e "\nYour initial JupyterLab workspace is at https://${extlb}/jupyter\n\n" >> outputemail
+echo -e "\nYour initial JupyterLab workspace is at https://${extlb}/jupyter" >> outputemail
+echo -e "Initial workspace password is '"${jupyter_password}"'" >> outputemail
+echo -e "   Telco churn analysis notebook is in the jupyter_lab/ds-for-telco directory in Jupyter" >> outputemail
+echo -e "   Look at github.com/gregoryg and github.com/mesosphere/jupyter-service for additional notebooks\n" >> outputemail
 # echo -e "\n*******************   Resources   *******************\n" >> outputemail
 # echo -e "Repo and demo script" >> outputemail
 # echo -e "https://github.com/mesosphere/se-demo/tree/master/mjs" >> outputemail
+
+echo 'MJS Demo installation complete!'
