@@ -1,2 +1,2 @@
 * Purpose
-MJS / JupyterLab demo deployable on DC/OS
+Data Science Engine demo deployable on DC/OS
