@@ -57,10 +57,10 @@ wait_package_ready "marathon-lb"
 dcos package install hdfs --yes
 wait_package_ready "hdfs"
 
-# Populate loadbalancer in MJS options - write to current directory
-jq -r '.networking.ingress.hostname="'${extlb}'"' ${SCRIPTPATH}/mjs-options.json-template > mjs-options.json
+# Populate loadbalancer in DC/OS Data Science Engine options - write to current directory
+jq -r '.networking.ingress.hostname="'${extlb}'"' ${SCRIPTPATH}/dcos-dse-options.json-template > dcos-dse-options.json
 
-dcos package install beta-mesosphere-jupyter-service --options=mjs-options.json --yes
+dcos package install beta-mesosphere-jupyter-service --options=dcos-dse-options.json --yes
 echo 'Wait for jupyter task to become ready'
 wait_package_ready "jupyter"
 
