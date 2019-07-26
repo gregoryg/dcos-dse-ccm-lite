@@ -12,7 +12,7 @@ jupyter_password=$(jq -r '.service.jupyter_password' ${SCRIPTPATH}/dcos-dse-opti
 export PATH=$(pwd):$PATH
 curl https://downloads.dcos.io/binaries/cli/linux/x86-64/dcos-1.13/dcos -o dcos
 chmod 755 dcos
-dcos cluster setup --no-check https://$(terraform output cluster-address) --username=bootstrapuser --password=deleteme
+dcos cluster setup --no-check --insecure https://$(terraform output cluster-address) --username=bootstrapuser --password=deleteme
 
 ${SCRIPTPATH}/dcos-dse-setup.sh
 
