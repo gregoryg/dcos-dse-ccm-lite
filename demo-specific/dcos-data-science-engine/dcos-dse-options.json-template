@@ -1,6 +1,6 @@
 {
   "service": {
-    "name": "/jupyter",
+    "name": "data-science-engine",
     "cpus": 2,
     "mem": 8192,
     "gpu": {
@@ -17,12 +17,35 @@
     "log_level": "INFO"
   },
   "networking": {
-    "cni_network_enabled": true,
-    "cni_network_name": "dcos",
-    "cni_network_plugin_labels": "",
+    "virtual_network_enabled": true,
+    "virtual_network_name": "dcos",
+    "virtual_network_plugin_labels": [],
     "ingress": {
       "enabled": true,
-      "hostname": "REPLACE_HOSTNAME_OF_EXT_LOADBALANCER"
+      "hostname": ""
+    }
+  },
+  "security": {
+    "tls": {
+      "enabled": false,
+      "protocol": "TLSv1.2",
+      "truststore_secret": "",
+      "truststore_password": "",
+      "keystore_secret": "",
+      "keystore_password": "",
+      "key_password": "",
+      "ca_bundle_secret": "",
+      "jaas_secret": ""
+    },
+    "extra_spark_secrets": {
+      "secret_names": "",
+      "secret_filenames": "",
+      "secret_envkeys": ""
+    },
+    "kerberos": {
+      "enabled": false,
+      "kdc": {},
+      "primary": "jupyter"
     }
   },
   "storage": {
@@ -57,36 +80,39 @@
   },
   "spark": {
     "spark_master_url": "mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos",
-    "spark_conf_cores_max": 5,
+    "spark_cores_max": 4,
     "spark_driver_cores": 2,
-    "spark_conf_executor_cores": 1,
-    "spark_conf_mesos_gpus_max": 0,
-    "spark_conf_mesos_executor_gpus": 0,
+    "spark_executor_cores": 1,
+    "spark_mesos_gpus_max": 0,
+    "spark_mesos_executor_gpus": 0,
     "spark_driver_memory": "6g",
-    "spark_conf_executor_memory": "6g",
-    "spark_conf_eventlog_enabled": true,
-    "spark_conf_eventlog_dir": "/mnt/mesos/sandbox/",
+    "spark_executor_memory": "6g",
+    "spark_eventlog_enabled": true,
+    "spark_eventlog_dir": "/mnt/mesos/sandbox/",
     "start_spark_history_server": true,
-    "spark_history_fs_logdirectory": "/mnt/mesos/sandbox/",
-    "spark_conf_jars_packages": "",
-    "spark_conf_mesos_principal": "",
-    "spark_conf_mesos_role": "",
-    "spark_conf_mesos_driver_labels": "",
-    "spark_conf_mesos_task_labels": "",
-    "spark_conf_executor_krb5_config": "/mnt/mesos/sandbox/krb5.conf",
-    "spark_conf_spark_scheduler_min_registered_resources_ratio": 1,
-    "spark_conf_mesos_containerizer": "mesos",
-    "spark_conf_hadoop_fs_s3a_aws_credentials_provider": "com.amazonaws.auth.InstanceProfileCredentialsProvider",
+    "spark_history_fs_logdirectory": "file:/mnt/mesos/sandbox/",
+    "spark_jars_packages": "",
+    "spark_mesos_principal": "",
+    "spark_mesos_secret": "",
+    "spark_mesos_role": "",
+    "spark_mesos_driver_labels": "",
+    "spark_mesos_task_labels": "",
+    "spark_executor_krb5_config": "/mnt/mesos/sandbox/krb5.conf",
+    "spark_scheduler_min_registered_resources_ratio": 1,
+    "spark_mesos_containerizer": "mesos",
+    "spark_hadoop_fs_s3a_aws_credentials_provider": "com.amazonaws.auth.InstanceProfileCredentialsProvider",
     "spark_driver_java_options": "-server -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/mnt/mesos/sandbox",
-    "spark_conf_executor_java_options": "-server -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/mnt/mesos/sandbox",
-    "spark_conf_mesos_executor_home": "/opt/spark",
-    "spark_conf_executor_java_home": "/opt/jdk",
-    "spark_conf_executor_hadoop_hdfs_home": "/opt/hadoop",
-    "spark_conf_executor_hadoop_opts": "-Djava.library.path=/opt/hadoop/lib/native -Djava.security.krb5.conf=/mnt/mesos/sandbox/krb5.conf",
-    "spark_conf_mesos_executor_docker_forcepullimage": false,
+    "spark_executor_java_options": "-server -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/mnt/mesos/sandbox",
+    "spark_mesos_executor_home": "/opt/spark",
+    "spark_executor_java_home": "/opt/jdk",
+    "spark_executor_hadoop_hdfs_home": "/opt/hadoop",
+    "spark_executor_hadoop_opts": "-Djava.library.path=/opt/hadoop/lib/native -Djava.security.krb5.conf=/mnt/mesos/sandbox/krb5.conf",
+    "spark_mesos_executor_docker_forcepullimage": false,
     "spark_user": "nobody"
   },
   "advanced": {
+    "jupyter_notebook_image": "",
+    "jupyter_worker_image": "",
     "force_pull_jupyter_image": false,
     "force_pull_worker_image": false,
     "home": "/mnt/mesos/sandbox",
