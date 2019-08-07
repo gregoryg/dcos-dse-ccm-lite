@@ -60,9 +60,9 @@ wait_package_ready "hdfs"
 # Populate loadbalancer in DC/OS Data Science Engine options - write to current directory
 jq -r '.networking.ingress.hostname="'${extlb}'"' ${SCRIPTPATH}/dcos-dse-options.json-template > dcos-dse-options.json
 
-dcos package install beta-mesosphere-jupyter-service --options=dcos-dse-options.json --yes
-echo 'Wait for jupyter task to become ready'
-wait_package_ready "jupyter"
+dcos package install data-science-engine --options=dcos-dse-options.json --yes
+echo 'Wait for data-science-engine task to become ready'
+wait_package_ready "data-science-engine"
 
 echo "Now installing initial Jupyter notebook in local storage area"
-cat ${SCRIPTPATH}/install-notebooks.sh | dcos task exec -i jupyter -- bash
+cat ${SCRIPTPATH}/install-notebooks.sh | dcos task exec -i data-science-engine -- bash

@@ -1,6 +1,5 @@
 #!/bin/bash
 # TODO: externalize dcos package install/config to demo-installers
-# TODO: check for task running: dcos task --json jupyter|jq -r '.[].state'
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 eval `ssh-agent -s` > /dev/null 2>&1
@@ -18,9 +17,9 @@ ${SCRIPTPATH}/dcos-dse-setup.sh
 
 echo -e "Your cluster details are here:\n" > outputemail
 echo $(terraform output) >> outputemail
-echo -e "\nYour initial JupyterLab workspace is at https://${extlb}/jupyter" >> outputemail
+echo -e "\nYour initial JupyterLab workspace is at https://${extlb}/service/data-science-engine/" >> outputemail
 echo -e "Initial workspace password is '"${jupyter_password}"'" >> outputemail
-echo -e "   Telco churn analysis notebook is in the jupyter_lab/ds-for-telco directory in Jupyter" >> outputemail
+echo -e "   Customer churn analysis notebook is in the jupyter_lab/ds-for-telco directory in Jupyter" >> outputemail
 echo -e "   Look at github.com/gregoryg and github.com/mesosphere/jupyter-service for additional notebooks\n" >> outputemail
-
+# TODO: Include YouTube link to demo setup video
 echo 'DC/OS Data Science Engine Demo installation complete!'
