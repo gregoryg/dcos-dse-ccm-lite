@@ -21,5 +21,6 @@ echo -e "\nYour initial JupyterLab workspace is at https://${extlb}/service/data
 echo -e "Initial workspace password is '"${jupyter_password}"'" >> outputemail
 echo -e "   Customer churn analysis notebook is in the jupyter_lab/ds-for-telco directory in Jupyter" >> outputemail
 echo -e "   Look at github.com/gregoryg and github.com/mesosphere/jupyter-service for additional notebooks\n" >> outputemail
-# TODO: Include YouTube link to demo setup video
+echo -e "SE Demo setup video (unlisted YouTube link): https://youtu.be/mjuUMpAcTnQ\n"
+
 echo 'DC/OS Data Science Engine Demo installation complete!'
