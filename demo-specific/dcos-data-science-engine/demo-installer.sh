@@ -12,7 +12,20 @@ export PATH=$(pwd):$PATH
 curl https://downloads.dcos.io/binaries/cli/linux/x86-64/dcos-1.13/dcos -o dcos
 chmod 755 dcos
 dcos cluster setup --no-check --insecure https://$(terraform output cluster-address) --username=bootstrapuser --password=deleteme
-
+# prep cluster for S3 access if environment vars are set
+if [[ -n ${AWS_ACCESS_KEY_ID+x} && -n ${AWS_SECRET_ACCESS_KEY+x} ]] ; then
+    # Set up Service Account for Data Science Engine and secrets
+    DSENGINE_SA=dsengine_sa
+    dcos security secrets create aws_access_key_id -v ${AWS_ACCESS_KEY_ID}
+    dcos security secrets create aws_secret_access_key -v ${AWS_SECRET_ACCESS_KEY}
+    dcos security org service-accounts keypair dsengine-private.pem dsengine-public.pem
+    dcos security secrets create dsengine/private_key -f dsengine-private.pem 
+    dcos security secrets create dsengine/public_key -f dsengine-public.pem 
+    dcos security org service-accounts create -p dsengine-public.pem -d "DSEngine SA" ${DSENGINE_SA}
+    dcos security org service-accounts show ${DSENGINE_SA}
+    dcos security secrets create-sa-secret dsengine-private.pem ${DSENGINE_SA} ${DSENGINE_SA}
+    dcos security secrets list /
+fi
 ${SCRIPTPATH}/dcos-dse-setup.sh
 
 echo -e "Your cluster details are here:\n" > outputemail

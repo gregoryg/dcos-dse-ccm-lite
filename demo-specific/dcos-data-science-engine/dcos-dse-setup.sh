@@ -59,7 +59,15 @@ wait_package_ready "hdfs"
 
 # Populate loadbalancer in DC/OS Data Science Engine options - write to current directory
 jq -r '.networking.ingress.hostname="'${extlb}'"' ${SCRIPTPATH}/dcos-dse-options.json-template > dcos-dse-options.json
-
+# If AWS S3 credentials are set, update config for use of S3
+if [[ -n ${AWS_ACCESS_KEY_ID+x} && -n ${AWS_SECRET_ACCESS_KEY+x} ]] ; then
+    jq -r '.storage.s3.aws_access_key_id="aws_access_key_id"' | \
+        '.storage.s3.aws_secret_access_key="aws_secret_access_key"' | \
+        '.spark.spark_hadoop_fs_s3a_aws_credentials_provider="com.amazonaws.auth.EnvironmentVariableCredentialsProvider"' | \
+        '.service.service_account="dsengine_sa"' | \
+        '.service.service_account_secret="dsengine_sa"' ${SCRIPTPATH}/dcos-dse-options.json > /tmp/dcos-tmp.json
+    mv -v /tmp/dcos-tmp.json ${SCRIPTPATH}/dcos-dse-options.json
+fi
 dcos package install data-science-engine --options=dcos-dse-options.json --yes
 echo 'Wait for data-science-engine task to become ready'
 wait_package_ready "data-science-engine"
