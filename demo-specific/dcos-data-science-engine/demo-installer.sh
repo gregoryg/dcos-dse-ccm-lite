@@ -16,13 +16,18 @@ dcos cluster setup --no-check --insecure https://$(terraform output cluster-addr
 if [[ -n ${AWS_ACCESS_KEY_ID+x} && -n ${AWS_SECRET_ACCESS_KEY+x} ]] ; then
     # Set up Service Account for Data Science Engine and secrets
     DSENGINE_SA=dsengine_sa
+    # Store AWS keys as secrets
     dcos security secrets create aws_access_key_id -v ${AWS_ACCESS_KEY_ID}
     dcos security secrets create aws_secret_access_key -v ${AWS_SECRET_ACCESS_KEY}
+    # Generate the SA key pair
     dcos security org service-accounts keypair dsengine-private.pem dsengine-public.pem
+    # Store the SA key pair as secrets
     dcos security secrets create dsengine/private_key -f dsengine-private.pem 
     dcos security secrets create dsengine/public_key -f dsengine-public.pem 
+    # Create the service account
     dcos security org service-accounts create -p dsengine-public.pem -d "DSEngine SA" ${DSENGINE_SA}
     dcos security org service-accounts show ${DSENGINE_SA}
+    # Store the service account secret
     dcos security secrets create-sa-secret dsengine-private.pem ${DSENGINE_SA} ${DSENGINE_SA}
     dcos security secrets list /
 fi

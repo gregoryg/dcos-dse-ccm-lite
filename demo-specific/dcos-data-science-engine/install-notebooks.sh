@@ -2,7 +2,9 @@
 cd ~
 mkdir -p projects
 cd projects
-git clone https://github.com/gregoryg/ds-for-telco.git
+if [ ! -d ds-for-telco ] ; then
+    git clone https://github.com/gregoryg/ds-for-telco.git
+fi
 # export JAVA_HOME=/opt/jdk
 # export HADOOP_CONF_DIR=/mnt/mesos/sandbox
 # export PATH=$PATH:/opt/conda/bin:/opt/jdk/bin:/opt/spark/bin:/opt/hadoop/bin:/opt/mesosphere/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
