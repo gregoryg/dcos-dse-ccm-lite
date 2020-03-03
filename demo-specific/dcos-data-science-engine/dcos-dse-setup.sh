@@ -16,7 +16,7 @@ wait_package_ready () {
     status=-99
     for i in {0..10}
     do
-        dcos task ${pkg}
+        dcos task list ${pkg}
         status=$?
         if [ $status -ne 0 ] ; then
             echo -n .
@@ -35,7 +35,7 @@ wait_package_ready () {
     status="-99"
     for i in {0..40}
     do
-        status=$(dcos task --json ${pkg} | jq -r '.[].state' | sort -u)
+        status=$(dcos task list --json ${pkg} | jq -r '.[].state' | sort -u)
         if [ "$status" != "TASK_RUNNING" ] ; then
             echo -n .
             sleep 10
