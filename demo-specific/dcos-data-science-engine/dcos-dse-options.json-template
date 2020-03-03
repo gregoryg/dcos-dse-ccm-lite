@@ -58,7 +58,9 @@
       "aws_region": "us-east-1",
       "endpoint": "s3.us-east-1.amazonaws.com",
       "use_https": true,
-      "verify_ssl": true
+      "verify_ssl": true,
+      "aws_access_key_id": "",
+      "aws_secret_access_key": ""
     }
   },
   "oidc": {
