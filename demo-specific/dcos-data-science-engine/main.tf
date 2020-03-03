@@ -25,8 +25,7 @@ provider "google" {
 
 
 module "dcos" {
-  # version = "~> 0.2.0"
-  version = "~> 0.1.0"
+  version = "~> 0.2.0"
 # Uncomment one of: AWS, Azure, GCP
 # # AWS
 #   source  = "dcos-terraform/dcos/aws"
@@ -62,7 +61,7 @@ module "dcos" {
   num_private_agents = "8"
   num_public_agents  = "1"
   tags={owner = "REPLACE_OWNER", expiration = "REPLACE_EXPIRATION"}
-  dcos_version = "1.13.1"
+  dcos_version = "2.0.1"
   providers = {
     azurerm = "azurerm"
     aws     = "aws"
